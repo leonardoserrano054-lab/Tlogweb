@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLOG | Soluciones Logísticas</title>
+    
+    <!-- Fuentes y Estilos -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #003366; 
+            --secondary: #00b4d8; 
+            --dark: #111;
+            --light: #f8f9fa;
+            --text: #444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--light); color: var(--text); overflow-x: hidden; }
+
+        /* UTILIDADES */
+        .text-center { text-align: center; }
+        .bg-light { background-color: #fff; }
+        .bg-gray { background-color: var(--light); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        .section-padding { padding: 6rem 0; }
+        .section-title { font-size: 2.5rem; color: var(--primary); margin-bottom: 3rem; font-weight: 800; text-align: center; }
+
+        /* NAVEGACIÓN */
+        nav { background: rgba(255, 255, 255, 0.98); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        .logo { font-size: 2rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+        .logo span { color: var(--secondary); }
+        .nav-links a { text-decoration: none; color: var(--dark); margin-left: 2rem; font-weight: 600; font-size: 0.9rem; transition: color 0.3s; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--secondary); }
+        .btn-entrar { background: var(--primary); color: white !important; padding: 0.6rem 1.5rem; border-radius: 5px; }
+        .btn-entrar:hover { background: var(--secondary); }
+
+        /* HERO (ANIMACIÓN KEN BURNS) */
+        .hero { position: relative; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1586528116311-ad8ed7c80a30?auto=format&fit=crop&w=1920&q=80') center/cover; animation: zoomBg 20s infinite alternate; z-index: -2; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,51,102,0.85), rgba(0,51,102,0.6)); z-index: -1; }
+        @keyframes zoomBg { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+        
+        .hero-content { z-index: 1; padding: 0 20px; max-width: 900px; }
+        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.1; }
+        .hero p { font-size: 1.2rem; font-weight: 300; margin-bottom: 2.5rem; line-height: 1.6; }
+        .btn-cta { background: var(--secondary); color: white; padding: 1rem 2.5rem; text-decoration: none; font-weight: 700; border-radius: 50px; font-size: 1.1rem; transition: all 0.3s; display: inline-block; }
+        .btn-cta:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 180, 216, 0.4); }
+
+        /* ANIMACIONES IMÁGENES (FLOTANTES) */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+        .img-floating { animation: float 6s ease-in-out infinite; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); width: 100%; }
+
+        /* SECCIONES DIVIDIDAS (TEXTO / IMAGEN) */
+        .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .split-grid p { line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.05rem; }
+        .split-grid h2 { font-size: 2.2rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 800; }
+
+        /* CUADRÍCULAS (GRID) */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2.5rem; }
+
+        /* TARJETAS INFO (POR QUÉ ELEGIRNOS / COMEX) */
+        .info-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: transform 0.3s, border-color 0.3s; border-bottom: 4px solid transparent; }
+        .info-card:hover { transform: translateY(-10px); border-bottom-color: var(--secondary); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .info-card i { font-size: 2.5rem; color: var(--secondary); margin-bottom: 1.5rem; }
+        .info-card h3 { color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem; }
+        .info-card p { font-size: 0.95rem; line-height: 1.6; }
+
+        /* TARJETAS SERVICIOS (CON IMAGEN ANIMADA) */
+        .service-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); transition: transform 0.3s; }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        .service-img { width: 100%; height: 220px; overflow: hidden; position: relative; }
+        .service-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .service-card:hover .service-img img { transform: scale(1.15); } /* Efecto Zoom en Hover */
+        .service-body { padding: 2rem; position: relative; }
+        .service-body i { position: absolute; top: -25px; right: 20px; background: var(--secondary); color: white; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .service-body h3 { color: var(--primary); margin-bottom: 1rem; font-size: 1.2rem; }
+        .service-body p { font-size: 0.9rem; line-height: 1.6; }
+
+        /* FOOTER Y WHATSAPP */
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; box-shadow: 0px 4px 15px rgba(0,0,0,0.2); z-index: 1000; transition: transform 0.3s; text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        
+        footer { background: var(--primary); color: white; text-align: center; padding: 4rem 5%; }
+        footer .footer-logo { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+        footer .footer-logo span { color: var(--secondary); }
+        footer p { margin-bottom: 0.5rem; opacity: 0.8; font-size: 0.9rem; }
+
+        @media (max-width: 900px) {
+            .split-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .hero h1 { font-size: 2.8rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN -->
+    <nav data-aos="fade-down" data-aos-duration="800">
+        <div class="logo">TLOG<span>.</span></div>
+        <div class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#empresa">Empresa</a>
+            <a href="#comex">Comex</a>
+            <a href="#operaciones">Operaciones</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#contacto">Contacto</a>
+            <a href="#" class="btn-entrar">LogiRed</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 data-aos="fade-up">Operador Logístico Integral</h1>
+            <p data-aos="fade-up" data-aos-delay="200">Soluciones eficientes y personalizadas para gestionar toda tu cadena de suministro, desde el origen hasta el destino final.</p>
+            <a href="#servicios" class="btn-cta" data-aos="zoom-in" data-aos-delay="400">Descubre nuestros servicios</a>
+        </div>
+    </section>
+
+    <!-- SECCIÓN EMPRESA -->
+    <section id="empresa" class="section-padding bg-light">
+        <div class="container split-grid">
+            <div data-aos="fade-right">
+                <h2>Total Logistics SpA</h2>
+                <p>Total Logistics es una empresa especializada en logística internacional y servicios de Freight Forwarder, que conecta de forma eficiente las operaciones de sus clientes con los principales mercados del mundo.</p>
+                <p>Ofrecemos soluciones integrales que optimizan tiempos, reducen costos y aseguran la trazabilidad en cada etapa. Con una trayectoria sólida, combinamos experiencia, tecnología y un enfoque estratégico para agregar valor real a cada operación.</p>
+            </div>
+            <div data-aos="fade-left">
+                <!-- Imagen animada (flotante) -->
+                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80" alt="Empresa Logística" class="img-floating">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN COMEX & OPERACIONES -->
+    <section id="comex" class="section-padding bg-gray">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Operaciones y Comex</h2>
+            <div class="grid-2">
+                <div class="info-card" data-aos="zoom-in-up" data-aos-delay="100">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <h3>Importación / Exportación</h3>
+                    <p>Como operador logístico internacional, gestionamos todo el proceso de importación y exportación de mercancías. Nos encargamos de la documentación, transporte y coordinación con operadores logísticos de exportación en distintos puntos del mundo para garantizar un servicio eficiente y seguro.</p>
+                </div>
+                <div class="info-card" data-aos="zoom-in-up" data-aos-delay="200">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <h3>Bodegaje / Logística</h3>
+                    <p>Somos un operador logístico integral con soluciones completas de bodegaje y logística adaptadas a cada etapa de la cadena de suministro. Como operador logístico de carga, ofrecemos almacenamiento seguro, control de inventario y distribución eficiente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN POR QUÉ ELEGIRNOS -->
+    <section id="operaciones" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">¿Por qué elegirnos?</h2>
+            <p class="text-center" data-aos="fade-up" style="max-width: 800px; margin: 0 auto 3rem auto; line-height: 1.6;">
+                Con años de experiencia y una red global de confianza, ofrecemos servicios logísticos integrales diseñados para optimizar cada paso de la cadena de suministro. Te garantizamos seguridad, trazabilidad y adaptabilidad en cada operación.
+            </p>
+            <div class="grid-2">
+                <div class="info-card" data-aos="fade-right" data-aos-delay="100">
+                    <h3>01. Experiencia Internacional</h3>
+                    <p>Contamos con vasta experiencia en el sector, gestionando importaciones y exportaciones a nivel mundial. Nuestra red de agentes garantiza un servicio confiable.</p>
+                </div>
+                <div class="info-card" data-aos="fade-left" data-aos-delay="200">
+                    <h3>02. Soluciones Logísticas Integrales</h3>
+                    <p>Enfoque completo desde la recepción de mercancías hasta la entrega final. Especialistas en bodegaje, almacenamiento y distribución.</p>
+                </div>
+                <div class="info-card" data-aos="fade-right" data-aos-delay="300">
+                    <h3>03. Adaptabilidad a tus Necesidades</h3>
+                    <p>Brindamos soluciones logísticas personalizadas que se ajustan a las especificidades de tu negocio, ya sea a gran o pequeña escala.</p>
+                </div>
+                <div class="info-card" data-aos="fade-left" data-aos-delay="400">
+                    <h3>04. Trazabilidad y Respaldo Total</h3>
+                    <p>Ofrecemos trazabilidad en tiempo real y un control exhaustivo de cada envío. Te proporcionamos visibilidad total y capacidad de reacción.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN SERVICIOS -->
+    <section id="servicios" class="section-padding bg-gray">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Nuestros Principales Servicios</h2>
+            <p class="text-center" data-aos="fade-up" style="max-width: 800px; margin: 0 auto 3rem auto;">Soluciones logísticas clave para un comercio sin fronteras. Estos seis servicios representan el núcleo de nuestra propuesta de valor.</p>
+            
+            <div class="grid-3">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" alt="Transporte Aéreo">
+                    </div>
+                    <div class="service-body">
+                        <i class="fa-solid fa-plane"></i>
+                        <h3>Transporte Aéreo</h3>
+                        <p>Es uno de los servicios más solicitados cuando se necesita rapidez en el transporte de mercancías urgentes o de alto valor.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1494412519320-aa3da6e05a8d?auto=format&fit=crop&w=600&q=80" alt="Transporte Marítimo">
+                    </div>
+                    <div class="service-body">
+                        <i class="fa-solid fa-ship"></i>
+                        <h3>Transporte Marítimo LCL – FCL</h3>
+                        <p>Flexibilidad entre LCL (carga parcial) y FCL (carga completa) para cubrir desde pequeñas cargas hasta grandes volúmenes.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1541889814400-f38b1fbd5c5f?auto=format&fit=crop&w=600&q=80" alt="Carga Proyecto">
+                    </div>
+                    <div class="service-body">
+                        <i class="fa-solid fa-helmet-safety"></i>
+                        <h3>Carga de Proyecto y Peligrosa</h3>
+                        <p>Tratamiento especializado y cumplimiento de normativas específicas para manejar cargas excepcionales o riesgosas.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8ed7c80a30?auto=format&fit=crop&w=600&q=80" alt="Bodegaje">
+                    </div>
+                    <div class="service-body">
+                        <i class="fa-solid fa-warehouse"></i>
+                        <h3>Bodegajes</h3>
+                        <p>Almacenamiento seguro en ubicaciones estratégicas para garantizar disponibilidad inmediata y control de inventario.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&q=80" alt="Embalaje">
+                    </div>
+                    <div class="service-body">
+                        <i class="fa-solid fa-box-open"></i>
+                        <h3>Embalaje y Preparación</h3>
+                        <p>Protección crucial durante el transporte y proceso de distribución, garantizando productos en perfecto estado.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80" alt="Red Global">
+                    </div>
+                    <div class="service-body">
+                        <i class="fa-solid fa-globe"></i>
+                        <h3>Red de Agentes Globales</h3>
+                        <p>Cobertura global que asegura recepción y entrega a tiempo en cualquier lugar del mundo, con respaldo operativo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contacto">
+        <div class="footer-logo">TLOG<span>.</span></div>
+        <p>Total Logistics SpA - Operador Logístico Integral</p>
+        <p>Compromiso, eficiencia y servicio personalizado.</p>
+        <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem;">
+            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fa-regular fa-envelope"></i></a>
+            <a href="#" style="color: white; font-size: 1.5rem;"><i class="fa-solid fa-phone"></i></a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">© 2026 Total Logistics SpA. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/56900000000" target="_blank" class="whatsapp-float">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- LIBRERÍA ANIMACIONES -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 80, duration: 800 });
+    </script>
+</body>
+</html>
